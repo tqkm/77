@@ -51,11 +51,11 @@ public class BFS {
         List<String> l = new LinkedList<>();
         for(int i = 0;i < 4;i++){
             char c = poll.charAt(i);
-            char cc = c == '0' ? 9 : (char)(c - 1);
+            char cc = c == '0' ? '9' : (char)(c - 1);
             StringBuilder s = new StringBuilder(poll);
             s.setCharAt(i,cc);
             l.add(s.toString());
-            cc = c == '9' ? 0 :(char)(c + 1);
+            cc = c == '9' ? '0' :(char)(c + 1);
             s = new StringBuilder(poll);
             s.setCharAt(i,cc);
             l.add(s.toString());
