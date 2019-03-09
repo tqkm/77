@@ -1,0 +1,35 @@
+import java.util.*;
+//将问题抽象成n-i^2,i从小于n开方的最大正整数开始，依次递减开始查找，满足条件的路径最短的是哪个
+public class BFS {
+    public static void main(String[] args) {
+        BFS b =new BFS();
+        System.out.println(b.numSquares(12));
+    }
+
+    public int numSquares(int n) {
+        if (n == 0){
+            return 0;
+        }
+        int step = 0;
+        Queue<Integer> q = new LinkedList<>();
+        Queue<Integer> q1 = new LinkedList<>();;
+        q.offer(n);
+        while (!q.isEmpty()){
+            int number = q.poll();
+            for (int i = (int)Math.sqrt(number);i > 0;i--){
+                if (i * i == number){
+                    return step + 1;
+                }else {
+                    int nn = number - i * i;
+                    q1.offer(nn);
+                }
+            }
+            if (q.isEmpty()){
+                q = q1;
+                q1 = new LinkedList<>();
+                step++;
+            }
+        }
+        return 0;
+    }
+}
