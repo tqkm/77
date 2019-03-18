@@ -1,0 +1,43 @@
+class Solution {
+  public int numIslands(char[][] grid) {
+        if(grid == null || grid.length == 0 || grid[0].length == 0){
+            return 0;
+        }
+        int row = grid.length;
+        int column = grid[0].length;
+        //boolean[][] b = new boolean[row][column];
+        int num = 0;
+        for(int i = 0;i<row;i++){
+            for(int j = 0;j<column;j++){
+                if (grid[i][j] == '1'){
+                    dfs(grid,i,j);
+                    num++;
+                }
+            }
+        }
+        return num;
+    }
+
+    private void dfs(char[][] grid, int i, int j) {
+        //b[i][j] = true;
+        grid[i][j] = '0';
+        if (isInBound(i-1,j,grid) && grid[i-1][j] == '1'){
+            dfs(grid,i-1,j);
+        }
+        if (isInBound(i+1,j,grid) && grid[i+1][j] == '1'){
+            dfs(grid,i+1,j);
+        }
+        if (isInBound(i,j-1,grid) && grid[i][j-1] == '1'){
+            dfs(grid,i,j-1);
+        }
+        if (isInBound(i,j+1,grid) && grid[i][j+1] == '1'){
+            dfs(grid,i,j+1);
+        }
+    }
+
+    public boolean isInBound(int x,int y,char[][] grid){
+        int row = grid.length;
+        int column = grid[0].length;
+        return x >= 0 && x < row && y >= 0 && y < column;
+    }
+}
