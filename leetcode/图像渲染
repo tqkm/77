@@ -1,0 +1,65 @@
+/**
+有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 0 到 65535 之间。
+给你一个坐标 (sr, sc) 表示图像渲染开始的像素值（行 ，列）和一个新的颜色值 newColor，让你重新上色这幅图像。
+为了完成上色工作，从初始坐标开始，记录初始坐标的上下左右四个方向上像素值与初始坐标相同的相连像素点，接着再记录这四个方向上符合条件的像素点与他们
+对应四个方向上像素值与初始坐标相同的相连像素点，……，重复该过程。将所有有记录的像素点的颜色值改为新的颜色值。
+最后返回经过上色渲染后的图像。
+
+输入: 
+image = [[1,1,1],[1,1,0],[1,0,1]]
+sr = 1, sc = 1, newColor = 2
+输出: [[2,2,2],[2,2,0],[2,0,1]]
+*/
+
+class Solution {
+     public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        Queue<Coordinate> q1 = new LinkedList<>();
+        Queue<Coordinate> q2 = new LinkedList<>();
+        q1.offer(new Coordinate(sr,sc));
+        int old = image[sr][sc];
+        image[sr][sc] = newColor;
+        if(old == newColor){
+            return image;
+        }
+        while (!q1.isEmpty()){
+            Coordinate poll = q1.poll();
+            if(in(poll.x - 1,poll.y,image) && image[poll.x - 1][poll.y] == old){
+                image[poll.x - 1][poll.y] = newColor;
+                q2.offer(new Coordinate(poll.x - 1,poll.y));
+            }
+            if(in(poll.x + 1,poll.y,image) && image[poll.x + 1][poll.y] == old){
+                image[poll.x + 1][poll.y] = newColor;
+                q2.offer(new Coordinate(poll.x + 1,poll.y));
+            }
+            if(in(poll.x,poll.y - 1,image) && image[poll.x][poll.y - 1] == old){
+                image[poll.x][poll.y - 1] = newColor;
+                q2.offer(new Coordinate(poll.x,poll.y - 1));
+            }
+            if(in(poll.x,poll.y + 1,image) && image[poll.x][poll.y + 1] == old){
+                image[poll.x][poll.y + 1] = newColor;
+                q2.offer(new Coordinate(poll.x,poll.y + 1));
+            }
+            if (q1.isEmpty()){
+                q1 = q2;
+                q2 = new LinkedList<>();
+            }
+        }
+        return image;
+    }
+
+    private boolean in(int x, int y, int[][] image) {
+        int row = image.length;
+        int column = image[0].length;
+        return x >= 0 && x < row && y >= 0 && y < column;
+    }
+
+    class Coordinate{
+        int x;
+        int y;
+
+       public Coordinate(int x, int y) {
+           this.x = x;
+           this.y = y;
+       }
+   }
+}
