@@ -1,0 +1,28 @@
+给定一个链表: 1->2->3->4->5, 和 n = 2.
+
+当删除了倒数第二个节点后，链表变为 1->2->3->5.
+
+class Solution {
+    
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode h = head;
+        if(head == null)
+            return null;
+        int i = 0;
+        ArrayList<ListNode> list = new ArrayList<ListNode>();
+        while(head != null){
+            list.add(head);
+            i++;
+            head = head.next;
+        }
+        int index = i - n;
+        ListNode now = list.get(index);
+        if(index == 0){
+            return now.next;
+        }
+        ListNode prev = list.get(index - 1);
+        ListNode next = now.next;      
+        prev.next = next;
+        return h;
+    }
+}
