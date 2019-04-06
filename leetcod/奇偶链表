@@ -1,0 +1,26 @@
+给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。请注意，这里的奇数节点和偶数节点指的是节点编号的奇偶性，而不是节点的值的奇偶性。
+
+请尝试使用原地算法完成。你的算法的空间复杂度应为 O(1)，时间复杂度应为 O(nodes)，nodes 为节点总数。
+
+先把奇数的连接，偶数的连接，最后将奇数的最后的next指向偶数的头部
+
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+        ListNode odd = head;
+        ListNode even = head.next;
+        ListNode n1 = odd;
+        ListNode n2 = even;
+        ListNode n3,n4;
+        while(n2 != null && (n3 = n2.next) != null){
+            n4 = n3.next;
+            n1.next = n3;
+            n2.next = n4;
+            n1 = n3;
+            n2 = n4;
+        }
+        n1.next = even;
+        return head;
+    }
+}
