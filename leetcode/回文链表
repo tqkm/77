@@ -1,0 +1,46 @@
+请判断一个链表是否为回文链表。
+示例 1:
+
+输入: 1->2
+输出: false
+示例 2:
+
+输入: 1->2->2->1
+输出: true
+进阶：
+你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+
+p1和p2两个快慢指针，在快指针到达终点时，慢指针到达中间，反转之后的链表，判断；
+
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if(head == null || head.next == null)
+            return true;
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode reverse = reverseList(slow.next);
+        while(reverse != null){
+            if(head.val != reverse.val)
+                return false;
+            head = head.next;
+            reverse = reverse.next;
+        }
+        return true;
+    }
+    public ListNode reverseList(ListNode head){
+        ListNode h = head;
+        ListNode prev = null;
+        ListNode next = null;
+        while(h != null){
+            next = h.next;
+            h.next = prev;
+            prev = h;
+            h = next;
+        }
+        return prev;
+    }
+}
