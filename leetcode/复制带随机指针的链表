@@ -1,0 +1,34 @@
+给定一个链表，每个节点包含一个额外增加的随机指针，该指针可以指向链表中的任何节点或空节点。
+要求返回这个链表的深拷贝。 
+
+class Solution {
+    public Node copyRandomList(Node head) {
+        if(head == null)
+            return null;
+        Node p = head;
+        while(p != null){
+            Node next = p.next;
+            Node q = new Node(p.val);
+            p.next = q;
+            q.next = next;
+            p = next;
+        }
+        p = head;
+        while(p != null){
+            p.next.random = p.random == null ? null : p.random.next;
+            p = p.next.next;
+        }
+        p = head;
+        Node q = head.next;
+        Node newHead = q;
+        while(p != null){
+            p.next = q.next;
+            if(q.next != null)
+                q.next = q.next.next;
+            p = p.next;
+            q = q.next;
+        }
+        return newHead;
+        
+    }
+}
