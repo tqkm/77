@@ -1,0 +1,31 @@
+给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
+
+输入: 1->2->3->4->5->NULL, k = 2
+输出: 4->5->1->2->3->NULL
+
+输入: 0->1->2->NULL, k = 4
+输出: 2->0->1->NULL
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null)
+            return null;
+        ListNode p = head;
+        ArrayList<ListNode> arr = new ArrayList<ListNode>();
+        while(p != null){
+            arr.add(p);
+            p = p.next;
+        }
+        int size = arr.size();
+        int num = k % size;
+        if(num == 0)
+            return head;
+        ListNode n = arr.get(size - num);
+        ListNode np = arr.get(size - num - 1);
+        ListNode end = arr.get(size - 1);
+        end.next = head;
+        np.next = null;
+        ListNode newHead = n;
+        return newHead;
+    }
+}
