@@ -122,7 +122,7 @@ public E get(int index) {
     }
  ```   
  根据元素移除下标：如果元素为null，则移除第一个为null值的元素；否则移除对应值的元素
- ~~~
+```
  public boolean remove(Object o) {
         if (o == null) {
             for (int index = 0; index < size; index++)
@@ -139,7 +139,7 @@ public E get(int index) {
         }
         return false;
     }
- ~~~
+```
  
  
  
