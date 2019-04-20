@@ -1,0 +1,35 @@
+输入: 5
+输出:
+[
+     [1],
+    [1,1],
+   [1,2,1],
+  [1,3,3,1],
+ [1,4,6,4,1]
+]
+
+当前行坐标为i,值为上一行数组中坐标i-1与i的相加的和，需注意i<0和i>当前数组长度的问题
+
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> l = new ArrayList<>();
+         if(numRows == 0)
+            return l;
+        ArrayList<Integer> arr = new ArrayList<>();
+        arr.add(1);       
+        l.add(arr);
+        if(numRows == 1){
+            return l;
+        } 
+        for(int i = 1;i<numRows;i++){
+            List<Integer> l1 = new ArrayList<>();
+            l.add(l1);
+            for(int j = 0;j <= i;j++){
+                int left = j - 1 < 0 ? 0 : l.get(i - 1).get(j - 1);
+                int right = j == i  ? 0 : l.get(i - 1).get(j);
+                l1.add(left + right);
+            }
+        }
+        return l;
+    }
+}
