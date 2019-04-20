@@ -1,0 +1,36 @@
+实现 strStr() 函数。
+给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
+
+示例 1:
+输入: haystack = "hello", needle = "ll"
+输出: 2
+
+示例 2:
+输入: haystack = "aaaaa", needle = "bba"
+输出: -1
+
+kmp
+暴力破解，从头开始找，当然，不用找到最后，找到长度之差的位置即可
+
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int l1 = haystack.length();
+        int l2 = needle.length();
+        char[] h = haystack.toCharArray();
+        char[] n = needle.toCharArray();
+        if(l1 == 0 && l2 != 0)
+            return -1;
+        for(int i=0;i<=l1-l2;i++){
+            int flag = 1;
+            for(int j=0;j<l2;j++){
+                if(h[i+j] != n[j]){
+                    flag = 0;
+                    break;
+                }
+            }
+            if(flag == 1)
+                return i;
+        }
+        return -1;
+    }
+}
