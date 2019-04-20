@@ -1,0 +1,52 @@
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+
+输出:  [1,2,4,7,5,3,6,8,9]
+
+定义一个变量代表当前向上还是向下走，并且判断是否达到边界，做出不同的坐标变化
+
+class Solution {
+    public int[] findDiagonalOrder(int[][] matrix) {
+        if(matrix == null)
+            return null;
+        boolean up = true;
+        int k = 0;
+        int row = matrix.length;
+        if(row == 0)
+            return new int[0];
+        int column = matrix[0].length;
+        int[] arr = new int[row * column];       
+        for(int i=0,j=0;i <= row - 1 && j <= column - 1;){
+            arr[k++] = matrix[i][j];
+            if((i == 0 || j == column - 1) && up){
+                if(j == column - 1){
+                    i++;
+                }else{
+                    j++;
+                }
+                up = false;
+                continue;
+            }
+            if((j == 0 || i == row - 1) && !up){
+                if(i == row - 1){
+                    j++;
+                }else{
+                    i++;
+                }
+                up = true;
+                continue;
+            }
+            if(up){
+                i--;
+                j++;
+            }else{
+                i++;
+                j--;
+            }
+        }
+        return arr;
+    }
+}
