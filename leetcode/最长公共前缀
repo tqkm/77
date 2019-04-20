@@ -1,0 +1,56 @@
+编写一个函数来查找字符串数组中的最长公共前缀。
+
+如果不存在公共前缀，返回空字符串 ""。
+
+示例 1:
+
+输入: ["flower","flow","flight"]
+输出: "fl"
+示例 2:
+
+输入: ["dog","racecar","car"]
+输出: ""
+解释: 输入不存在公共前缀。
+
+逐个比较每个数组相同坐标的字符是否相同；基本思路为若有数组为空串，直接返回空串，且搜索长度不应大于最小数组的长度，当且仅当所有数组的i坐标的字符都相同时，
+才会将该字符添加；     首先找到最小数组的长度，可在比较每个数组坐标为0时的字符是否相同时，将最小数组的长度找出；空串的问题也可在第一次比较时找出；至于
+添加字符一一比较即可
+
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        int length = strs.length;
+        StringBuilder sb = new StringBuilder();
+        char c = '0';        
+        if(length == 0)
+            return "";
+        if(length == 1)
+            return strs[0];
+        int minLength = strs[0].length();
+        boolean flag = false;
+        for(int i=0;i<minLength;i++){
+            if(flag)
+                break;
+            for(int j=0;j<length;j++){   
+                char tmp;
+                if(i == 0){
+                    int l = strs[j].length();
+                    minLength = minLength < l ? minLength : l;
+                    if(minLength == 0){//为空串
+                        flag = true;
+                        break;
+                    }
+                        
+                }
+                if(j == 0){
+                    c = strs[j].charAt(i);
+                }else if((tmp = strs[j].charAt(i)) == c && j == length - 1){//比到最后一个
+                    sb.append(tmp);
+                }else if(tmp != c){
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        return sb.toString();
+    }
+}
