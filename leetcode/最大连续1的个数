@@ -1,0 +1,22 @@
+给定一个二进制数组， 计算其中最大连续1的个数。
+
+输入: [1,1,0,1,1,1]
+输出: 3
+解释: 开头的两位和最后的三位都是连续1，所以最大连续1的个数是 3.
+
+使用两个下标，分别作为连续1的开头和结尾
+
+class Solution {
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int num = 0;
+        int l = nums.length;
+        for(int i = 0,k = -1;i < l;i++){
+            if(nums[i] == 0 && (i == l - 1 || nums[i + 1] == 1)){
+                k = i;
+            }else if(nums[i] == 1 && (i == l - 1 || nums[i + 1] == 0 )){ 
+                num = i - k > num ? i - k : num;
+            }
+        }
+        return num;
+    }
+}
