@@ -1,0 +1,57 @@
+给定一个字符串，逐个翻转字符串中的每个单词。
+
+输入: "a good   example"
+输出: "example good a"
+解释: 如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个。
+
+说明：
+无空格字符构成一个单词。
+输入字符串可以在前面或者后面包含多余的空格，但是反转后的字符不能包括。
+如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个。
+
+先把字符串都反转，再把每个单词反转，最后去掉多余的空格
+
+class Solution {
+    public String reverseWords(String s) {
+        char[] c = s.toCharArray();
+        int length = s.length();
+        reverse(c,0,length - 1);
+        reverseWord(c);
+        return clean(c);
+    }
+    
+    public void reverse(char[] c,int start,int end){
+        while(start < end){
+            char tmp = c[start];
+            c[start++] = c[end];
+            c[end--] = tmp;
+        }
+    }
+    
+    public void reverseWord(char[] c){
+        int length = c.length;
+        for(int i = 0,j = 0;i < length;i++){
+            while(i < j || i < length && c[i] == ' ')
+                i++;
+            while(j < i || j < length && c[j] != ' ')
+                j++;
+            reverse(c,i,j - 1);
+        }
+    }
+    
+    public String clean(char[] c){
+        int j = 0;
+        int length = c.length;
+        for(int i = 0;i < length;){
+            while(i < length && c[i] == ' ')
+                i++;
+            while(i < length && c[i] != ' ')
+                c[j++] = c[i++];
+            while(i < length && c[i] == ' ')
+                i++;
+            if(i < length)
+                c[j++] = ' ';
+        }
+        return new String(c).substring(0,j);
+    } 
+}
