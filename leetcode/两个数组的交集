@@ -1,0 +1,31 @@
+给定两个数组，编写一个函数来计算它们的交集。
+
+示例 1:
+输入: nums1 = [1,2,2,1], nums2 = [2,2]
+输出: [2]
+
+先将数组排序，再将相同的数放入set中，最后返回交集的数组
+
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        Set<Integer> arr = new HashSet<Integer>();
+        for(int i = 0,j = 0;i < nums1.length && j < nums2.length;){
+            if(nums1[i] == nums2[j]){
+                arr.add(nums1[i]);
+                i++;
+                j++;
+            }else if(nums1[i] < nums2[j]){
+                i++;
+            }else {
+                j++;
+            }
+        }
+        int[] a = new int[arr.size()];
+        int k = 0;
+        for(Integer i : arr)
+            a[k++] = i;
+        return a;
+    }
+}
