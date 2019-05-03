@@ -493,4 +493,104 @@ final Node<K,V> removeNode(int hash, Object key, Object value,
         return null;
 }
 ```
-1.
+1.先找到对应的节点才能移除，计算下标，table[index]上的节点为要找的节点，进行移除操作；否则判断当前节点是否为红黑树节点，进行红黑树移除操作；若是链表，则找到要移除的节点<br>
+2.不是红黑树结构的话，判断是否是头结点，若是的话直接将tab[index]赋值给node的next节点，否则进行链表移除p.next = node.next<br>
+3.afterNodeRemoval()与LinkedHashMap有关<br>
+
+```
+final void removeTreeNode(HashMap<K,V> map, Node<K,V>[] tab,
+                                  boolean movable) {
+            int n;
+            if (tab == null || (n = tab.length) == 0)
+                return;
+            int index = (n - 1) & hash;
+            TreeNode<K,V> first = (TreeNode<K,V>)tab[index], root = first, rl;
+            TreeNode<K,V> succ = (TreeNode<K,V>)next, pred = prev;
+            if (pred == null)
+                tab[index] = first = succ;
+            else
+                pred.next = succ;
+            if (succ != null)
+                succ.prev = pred;
+            if (first == null)
+                return;
+            if (root.parent != null)
+                root = root.root();
+            if (root == null || root.right == null ||
+                (rl = root.left) == null || rl.left == null) {
+                tab[index] = first.untreeify(map);  // too small
+                return;
+            }
+            TreeNode<K,V> p = this, pl = left, pr = right, replacement;
+            if (pl != null && pr != null) {
+                TreeNode<K,V> s = pr, sl;
+                while ((sl = s.left) != null) // find successor
+                    s = sl;
+                boolean c = s.red; s.red = p.red; p.red = c; // swap colors
+                TreeNode<K,V> sr = s.right;
+                TreeNode<K,V> pp = p.parent;
+                if (s == pr) { // p was s's direct parent
+                    p.parent = s;
+                    s.right = p;
+                }
+                else {
+                    TreeNode<K,V> sp = s.parent;
+                    if ((p.parent = sp) != null) {
+                        if (s == sp.left)
+                            sp.left = p;
+                        else
+                            sp.right = p;
+                    }
+                    if ((s.right = pr) != null)
+                        pr.parent = s;
+                }
+                p.left = null;
+                if ((p.right = sr) != null)
+                    sr.parent = p;
+                if ((s.left = pl) != null)
+                    pl.parent = s;
+                if ((s.parent = pp) == null)
+                    root = s;
+                else if (p == pp.left)
+                    pp.left = s;
+                else
+                    pp.right = s;
+                if (sr != null)
+                    replacement = sr;
+                else
+                    replacement = p;
+            }
+            else if (pl != null)
+                replacement = pl;
+            else if (pr != null)
+                replacement = pr;
+            else
+                replacement = p;
+            if (replacement != p) {
+                TreeNode<K,V> pp = replacement.parent = p.parent;
+                if (pp == null)
+                    root = replacement;
+                else if (p == pp.left)
+                    pp.left = replacement;
+                else
+                    pp.right = replacement;
+                p.left = p.right = p.parent = null;
+            }
+
+            TreeNode<K,V> r = p.red ? root : balanceDeletion(root, replacement);
+
+            if (replacement == p) {  // detach
+                TreeNode<K,V> pp = p.parent;
+                p.parent = null;
+                if (pp != null) {
+                    if (p == pp.left)
+                        pp.left = null;
+                    else if (p == pp.right)
+                        pp.right = null;
+                }
+            }
+            if (movable)
+                moveRootToFront(tab, r);
+}
+```
+1.红黑树移除节点操作，其中还有关于链表的操作
