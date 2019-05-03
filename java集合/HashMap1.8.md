@@ -426,4 +426,71 @@ final void split(HashMap<K,V> map, Node<K,V>[] tab, int index, int bit) {
             }
    }
 ```
+1.遍历TreeNode,如果(e.hash & bit) == 0，则说明说扩容后该节点索引位置不变，将这一类节点形成一个链表，若是(e.prev = hiTail) == null，扩容后节点索引位置改变，这一类节点形成一个链表<br>
+2.loadHead != null 代表索引位置不变的链表节点，如果个数小于等于6个的话，将它们红黑树结构转换成链表结构，否则hiHead != null说明原红黑树结构已被破坏，需生成新的红黑树<br>
+3.若是位置改变的链表节点个数小于6个，也会将它们的红黑树结构转换成链表结构,否则，生成新的红黑树结构<br>
 
+```
+final Node<K,V> untreeify(HashMap<K,V> map) {
+            Node<K,V> hd = null, tl = null;
+            for (Node<K,V> q = this; q != null; q = q.next) {
+                Node<K,V> p = map.replacementNode(q, null);
+                if (tl == null)
+                    hd = p;
+                else
+                    tl.next = p;
+                tl = p;
+            }
+            return hd;
+}
+```
+1.遍历当前的红黑树节点，逐个变成Node节点，再形成链表，最后返回头结点<br>
+
+```
+public V remove(Object key) {
+        Node<K,V> e;
+        return (e = removeNode(hash(key), key, null, false, true)) == null ?
+            null : e.value;
+}
+final Node<K,V> removeNode(int hash, Object key, Object value,
+                               boolean matchValue, boolean movable) {
+        Node<K,V>[] tab; Node<K,V> p; int n, index;
+        if ((tab = table) != null && (n = tab.length) > 0 &&
+            (p = tab[index = (n - 1) & hash]) != null) {
+            Node<K,V> node = null, e; K k; V v;
+            if (p.hash == hash &&
+                ((k = p.key) == key || (key != null && key.equals(k))))
+                node = p;
+            else if ((e = p.next) != null) {
+                if (p instanceof TreeNode)
+                    node = ((TreeNode<K,V>)p).getTreeNode(hash, key);
+                else {
+                    do {
+                        if (e.hash == hash &&
+                            ((k = e.key) == key ||
+                             (key != null && key.equals(k)))) {
+                            node = e;
+                            break;
+                        }
+                        p = e;
+                    } while ((e = e.next) != null);
+                }
+            }
+            if (node != null && (!matchValue || (v = node.value) == value ||
+                                 (value != null && value.equals(v)))) {
+                if (node instanceof TreeNode)
+                    ((TreeNode<K,V>)node).removeTreeNode(this, tab, movable);
+                else if (node == p)
+                    tab[index] = node.next;
+                else
+                    p.next = node.next;
+                ++modCount;
+                --size;
+                afterNodeRemoval(node);
+                return node;
+            }
+        }
+        return null;
+}
+```
+1.
