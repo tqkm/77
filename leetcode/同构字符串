@@ -17,3 +17,20 @@
 说明:
 你可以假设 s 和 t 具有相同的长度。
 
+利用桶排序的思想（hashmap也可以，把数组换成hashmap即可，思路相同），记录相同字符中最后一个字符的下标，进行比较，不是同构的话，下标一定不同
+
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        int[] arr1 = new int[128];
+        int[] arr2 = new int[128];
+        for(int i = 0;i < s.length();i++){
+            arr1[s.charAt(i)] = i;
+            arr2[t.charAt(i)] = i;
+        }
+        for(int i = 0;i < s.length();i++){
+            if(arr1[s.charAt(i)] != arr2[t.charAt(i)])
+                return false;
+        }
+        return true;
+    }
+}
