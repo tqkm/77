@@ -1,0 +1,52 @@
+设计一个支持在平均 时间复杂度 O(1) 下，执行以下操作的数据结构。
+
+insert(val)：当元素 val 不存在时，向集合中插入该项。
+remove(val)：元素 val 存在时，从集合中移除该项。
+getRandom：随机返回现有集合中的一项。每个元素应该有相同的概率被返回。
+
+class RandomizedSet {
+    
+    HashMap<Integer,Integer> map;
+    ArrayList<Integer> arr;
+    int size;
+    
+    
+    /** Initialize your data structure here. */
+    public RandomizedSet() {
+        map = new HashMap<>();
+        arr = new ArrayList<>();
+        size = 0;
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert(int val) {
+        if(map.containsKey(val))
+            return false;
+        arr.add(size,val);
+        map.put(val,size++);
+        return true;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove(int val) {
+        if(!map.containsKey(val)){
+            return false;
+        }else if(size == 0){
+            map.remove(val);
+        }else{
+            Integer i1 = map.get(val);
+            Integer i2 = arr.get(size - 1);
+            arr.set(i1,i2);
+            map.put(i2,i1);
+            map.remove(val);
+            size--;
+        }
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    public int getRandom() {
+        Random r = new Random();
+        return arr.get(r.nextInt(size));
+    }
+}
