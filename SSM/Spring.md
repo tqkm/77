@@ -62,8 +62,21 @@ public class InstanceCarFactory {
 <bean id="car2" factory-bean="carFactory" factory-method="getCar">
     <constructor-arg value="2"></constructor-arg>
 </bean> 
-
 ~~~
+#### ApplicationContextAware接口<br>
+实现该接口，可以从容器中获取想要的对象。比如一个单例类总有一个prototype的类的引用，这样的话每次从单例类中获取到的prototype类也是同一个，可以用实现
+ApplicationContextAware接口避免该情况<br>
+![image](https://github.com/wangda7/77/blob/master/picture/24.png)<br><br>
+![image](https://github.com/wangda7/77/blob/master/picture/23.png)<br><br>
+其中News类在配置中是prototype，NewsProvider是singleton，获取对象内存地址,是不同的对象<br><br>
+![image](https://github.com/wangda7/77/blob/master/picture/25.png)<br><br>
+
+#### BeanPostProcessor接口<br>
+BeanPostProcessor是bean实例化的后置接口，通过该接口可以对bean实例化前后做一些操作<br><br>
+![image](https://github.com/wangda7/77/blob/master/picture/26.png)<br><br>
+当实例化bean时，会运行如下方法<br><br>
+![image](https://github.com/wangda7/77/blob/master/picture/27.png)<br><br>
+
 #### 循环依赖问题：<br>
 spring有循环依赖问题，具体如下：<br>
 创建一个A类，构造方法含有B的引用<br>
