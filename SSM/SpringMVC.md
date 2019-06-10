@@ -14,4 +14,4 @@ private List<HandlerAdapter> handlerAdapters;//容器中注册的handler适配�
 可以看到注册的handlerMappings与handlerAdapters，似乎比spring4.0版本多了一些。。。<br>
 看第一个要分析的方法mappedHandler = getHandler(processedRequest)，其中mappedHandler是HandlerExecutionChain类，该类封装了当前的所有拦截器的引用（数组方式）和一个Object类的handler，至于handler究竟是什么，一步一步分析<br>
 ![image](https://github.com/wangda7/77/blob/master/picture/29.png)<br><br>
-此时handlermapping的实现类是SimpleUrlHandlerMapping,它继承自AbstractUrlHandlerMapping，getHandler方法的主要实现就在该抽象类中(模版设计模式的体现吧)，
+此时handlermapping的实现类是SimpleUrlHandlerMapping,它继承自AbstractUrlHandlerMapping，getHandler方法的主要实现就在该抽象类中，
