@@ -22,7 +22,7 @@ private List<HandlerAdapter> handlerAdapters;//容器中注册的handler适配�
 其实就是要请求的类Controller和对应方法Method,此刻就知道Object类的handler是什么了<br>
 看会图2，有一个getHandlerExecutionChain()方法，这个方法就是添加拦截器的<br>
 ![image](https://github.com/wangda7/77/blob/master/picture/33.png)<br><br>
-有两个默认拦截器，值此，HandlerExecutionChain结束<br>
+有两个默认拦截器，至此，HandlerExecutionChain结束<br>
 
 
 
