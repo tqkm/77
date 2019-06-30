@@ -1,0 +1,38 @@
+根据一棵树的前序遍历与中序遍历构造二叉树。
+
+注意:
+你可以假设树中没有重复的元素。
+
+例如，给出
+
+前序遍历 preorder = [3,9,20,15,7]
+中序遍历 inorder = [9,3,15,20,7]
+返回如下的二叉树：
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+
+
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return build(preorder,inorder,0,preorder.length - 1,0,inorder.length - 1);
+    }
+    
+    public TreeNode build(int[] preorder,int[] inorder,int i,int j,int k,int l){
+        if(i > j || k > l)
+            return null;
+        TreeNode node = new TreeNode(preorder[i]);
+        int m = k;
+        for(;m <= l;m++){
+            if(inorder[m] == preorder[i])
+                break;
+        }
+        int lnum = m - k;
+        node.left = build(preorder,inorder,i + 1,i + lnum,k,m - 1);
+        node.right = build(preorder,inorder,i + lnum + 1,j,m + 1,l);
+        return node;
+    }
+}
