@@ -1,4 +1,4 @@
-SpringMVC的一次请求流程分析
+SpringMVC的一次请求流程粗略分析
 ---
 Spring是通过DispatcherServlet分发请求的，通常在ssm框架中，会在web.xml中注册DispatcherServlet<br>
 基于springboot2.0.4,主要的方法是DispatcherServlet中doDispatch方法，先看几个类中的成员变量<br>
