@@ -35,8 +35,10 @@ public interface Interceptor {
 
 }
 ~~~
-实现插件功能要在配置文件进行配置，同时实现类要实现该接口,通用mapper也是通过插件的方式实现的,主要是通过plugin方法用Plugin生成动态代理类，通过intercep
-方法拦截要拦截的方法，比如分页查询，拦截到对应的方法后，取出sql语句，在sql语句后加上分页，覆盖原值<br>
-
+实现插件功能要在配置文件进行配置，同时实现类要实现该接口,通用mapper也是通过插件的方式实现的,主要是通过plugin方法用Plugin生成动态代理类，通过intercep方法拦截要拦截的方法，比如分页查询，拦截到对应的方法后，取出sql语句，在sql语句后加上分页，覆盖原值<br>
+#### 关于插件的使用
+![image](https://github.com/wangda7/77/blob/master/picture/41.png)<br>
+首先要实现Interceptor接口，再使用@Intercepts，@Signature注解，type是要拦截的类的类型、method是要拦截的方法、args是拦截方法的参数类型，主要的逻辑
+放在intercept方法中，最终调用invocation.proceed()方法执行目标方法
 
 
