@@ -1,0 +1,40 @@
+给定一个二叉树
+
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+填充它的每个 next 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 next 指针设置为 NULL。
+
+初始状态下，所有 next 指针都被设置为 NULL。
+
+class Solution {
+    public Node connect(Node root) {
+        if(root == null)
+            return null;
+        if(root.left != null){
+            if(root.right != null)
+                root.left.next = root.right;
+            else
+                root.left.next = connectAll(root.next);
+        }
+        if(root.right != null){
+            root.right.next = connectAll(root.next);
+        }
+        connect(root.right);
+        connect(root.left);
+        return root;
+    }
+    
+    public Node connectAll(Node node){
+        if(node == null)
+            return null;
+        if (node.left != null) 
+            return node.left;
+        if (node.right != null) 
+            return node.right;
+        return connectAll(node.next);           
+    }
+}
