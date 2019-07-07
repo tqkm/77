@@ -3,7 +3,7 @@ Mybatis
 Mybatis是一款优秀的持久层框架，主要解决的是数据持久化和以及映射操作，底层是对jdbc操作的封装<br>
 Mybatis大致的操作流程是通过XmlConfigBuilder读取配置文件构建Configuration对象，DefaultSqlSessionFactory创建SqlSession对象，通过SqlSession操作sql，
 其中会通过jdk的动态代理生成接口的代理对象<br>
-当spring与Mybatis整合时:<br>
+当spring与mybatis整合时:<br>
 ![image](https://github.com/wangda7/77/blob/master/picture/34.png)<br>
 #### Mybatis的一些组件<br>
 XmlConfigBuilder:主要是解析配置文件的<br>
