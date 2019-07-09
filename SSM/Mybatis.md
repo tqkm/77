@@ -1,8 +1,7 @@
 Mybatis
 ---
 Mybatis是一款优秀的持久层框架，主要解决的是数据持久化和以及映射操作，底层是对jdbc操作的封装<br>
-Mybatis大致的操作流程是通过XmlConfigBuilder读取配置文件构建Configuration对象，DefaultSqlSessionFactory创建SqlSession对象，通过SqlSession操作sql，
-其中会通过jdk的动态代理生成接口的代理对象<br>
+Mybatis大致的操作流程是通过XmlConfigBuilder读取配置文件构建Configuration对象，DefaultSqlSessionFactory创建SqlSession对象，通过SqlSession操作sql进行增删改查，其中会通过jdk的动态代理生成接口的代理对象<br>
 当spring与mybatis整合时:<br>
 ![image](https://github.com/wangda7/77/blob/master/picture/34.png)<br>
 #### Mybatis的一些组件<br>
@@ -16,6 +15,8 @@ ResultsetHandler：结果返回集的处理<br>
 Executor：操作数据库对象，一级缓存中的实现对象为SimpleExecutor，二级缓存中实现类为CachingExecutor<br>
 MappedStatement:mapper.xml文件中对应的select、update、insert、delete节点对象<br>
 BoudSql:sql语句就存储在这个对象中<br>
+#### Mybatis一次查询
+从defaultSqlSession开始，最终都是调用selectList()，simpleexecutor执行query方法，会先生成一个cachekey，cachekey根据mappedstatement的id、boudsql的sql，rowboud的limit，offset生成，根据生成的key去查询缓存是否存在，存在则直接返回数据，不存在则查询数据库，查询数据库前设置参数信息，查询到信息，注册缓存，返回结果
 #### Mybatis缓存<br>
 一级缓存:默认开启，作用范围为一次SqlSession会话，大致流程为根据要查询的sql生成一个key，根据key去hashmap中查询是否存在数据，不存在的话则去数据库查
 询,同时将查询出的数据存储在hashmap中，判断sqlsession是否statement级别，是的话清除缓存<br>
