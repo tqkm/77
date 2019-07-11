@@ -17,3 +17,6 @@ string、hash、list、set、zset，而memcached只支持string<br>
 1.首先缓存并不是越多越好
 2.缓存穿透问题，简单来说，就是设置的缓存没有起到作用，请求都发到DB上，造成DB压力过大。解决方法有缓存空对象，同时设置失效时间
 3.无底洞问题
+#### redis快的原因
+#### redis分片
+#### redis集群操作
