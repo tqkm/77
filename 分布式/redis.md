@@ -20,3 +20,16 @@ string、hash、list、set、zset，而memcached只支持string<br>
 #### redis快的原因
 #### redis分片
 #### redis集群操作
+
+#### redis操作
+zset 有序集合，可以实现排行，但是对于相同数据的无法以先到达的无法排到前面，可以加入时间戳(???)<br>
+zadd key score member<br>
+ex:<br> 
+zadd rank 90 user1<br>
+zadd rank 92 user2<br>
+zadd rank 94 user3<br>
+zadd rank 96 user4<br>
+创建一个名为rank的有序集合<br>
+查询分数 zscore rank user1   会返回90   zscore rank  user3  会返回94
+排序 zrank rank 0 -1 将数据从低到高全部查询出来，不包含分数， zrank rank 0 -1 withscores 会将分数也返回  0，-1代表查询数据坐标，-1是全部查询<br>
+zrevrank rank 0 -1 将数据从高到低全部查询出来<br>
