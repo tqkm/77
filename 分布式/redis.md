@@ -31,5 +31,5 @@ zadd rank 94 user3<br>
 zadd rank 96 user4<br>
 创建一个名为rank的有序集合<br>
 查询分数 zscore rank user1   会返回90   zscore rank  user3  会返回94
-排序 zrank rank 0 -1 将数据从低到高全部查询出来，不包含分数， zrank rank 0 -1 withscores 会将分数也返回  0，-1代表查询数据坐标，-1是全部查询<br>
-zrevrank rank 0 -1 将数据从高到低全部查询出来<br>
+排序 zrange rank 0 -1 将数据从低到高全部查询出来，不包含分数， zrange rank 0 -1 withscores 会将分数也返回  0，-1代表查询数据坐标，-1是全部查询<br>
+zrevrange rank 0 -1 将数据从高到低全部查询出来<br>
