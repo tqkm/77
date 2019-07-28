@@ -1,6 +1,6 @@
 Redis
 ---
-Redis是基于c语言编写的key-value存储系统，运行与内存中，因此处理速度极快。可以用来当做缓存、非关系型数据库<br>
+Redis是基于c语言编写的key-value存储系统，运行与内存中，因此处理速度极快。可以用来当做缓存、非关系型数据库、消息队列<br>
 #### redis的数据结构
 string、hash、list、set、zset，而memcached只支持string<br>
 #### redis持久化策略
