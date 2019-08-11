@@ -1,0 +1,75 @@
+实现一个 Trie (前缀树)，包含 insert, search, 和 startsWith 这三个操作。
+
+示例:
+
+Trie trie = new Trie();
+
+trie.insert("apple");
+trie.search("apple");   // 返回 true
+trie.search("app");     // 返回 false
+trie.startsWith("app"); // 返回 true
+trie.insert("app");   
+trie.search("app");     // 返回 true
+说明:
+
+你可以假设所有的输入都是由小写字母 a-z 构成的。
+保证所有输入均为非空字符串。
+
+class Trie {
+
+    public TrieNode root;
+    
+    class TrieNode{
+        public TrieNode[] node = new TrieNode[26];
+        public int count;
+    }
+    
+    /** Initialize your data structure here. */
+    public Trie() {
+        root = new TrieNode();
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        if(word == null)
+            return;
+        TrieNode t = root;
+        char[] arr = word.toCharArray();
+        int tmp;
+        for(int i = 0;i < arr.length;i++){
+            tmp = arr[i] - 'a';
+            if(t.node[tmp] == null)
+                t.node[tmp] = new TrieNode();
+            t = t.node[tmp];
+        }
+        t.count++;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        char[] arr = word.toCharArray();
+        int tmp;
+        TrieNode t = root;
+        for(int i = 0;i < arr.length;i++){
+            tmp = arr[i] - 'a';
+            if(t.node[tmp] == null)
+                return false;
+            t = t.node[tmp];
+        }
+        return t.count > 0;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        char[] arr = prefix.toCharArray();
+        int tmp;
+        TrieNode t = root;
+        for(int i = 0;i < arr.length;i++){
+            tmp = arr[i] - 'a';
+            if(t.node[tmp] == null)
+                return false;
+            t = t.node[tmp];
+        }
+        return true;
+    }
+}
