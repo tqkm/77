@@ -1,0 +1,18 @@
+class Solution {
+    public List<Integer> preorder(Node root) {
+        List<Integer> arr = new ArrayList<>();
+        preorder(root,arr);
+        return arr;
+    }
+    
+    public void preorder(Node node,List<Integer> arr) {
+        if(node == null)
+            return;
+        arr.add(node.val);
+        if(node.children == null)
+            return;
+        for(Node n : node.children)
+            preorder(n,arr);
+    }
+    
+}
