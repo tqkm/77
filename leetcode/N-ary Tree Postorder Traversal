@@ -1,0 +1,18 @@
+class Solution {
+    public List<Integer> postorder(Node root) {       
+        LinkedList<Integer> arr = new LinkedList<>();
+        if(root == null)
+            return arr;
+        Stack<Node> s = new Stack<>();
+        s.push(root);
+        while(!s.isEmpty()){
+            Node pop = s.pop();
+            if(pop.children != null){
+                for(Node n : pop.children)
+                    s.push(n);
+            }
+            arr.addFirst(pop.val);
+        }
+        return arr;
+    }
+}
