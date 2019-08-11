@@ -1,0 +1,18 @@
+class Solution {
+    public int maxDepth(Node root) {
+        return maxDepth(root,0);
+    }
+    
+    public int maxDepth(Node node,int n){
+        if(node == null)
+            return n;
+        n++;
+        if(node.children == null)
+            return n;
+        int tmp = n;
+        for(Node nn : node.children){
+            tmp = Math.max(maxDepth(nn,n),tmp);
+        }
+        return tmp;
+    }
+}
