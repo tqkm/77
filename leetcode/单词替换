@@ -1,0 +1,65 @@
+在英语中，我们有一个叫做 词根(root)的概念，它可以跟着其他一些词组成另一个较长的单词——我们称这个词为 继承词(successor)。例如，词根an，跟随着单词 other(其他)，可以形成新的单词 another(另一个)。
+
+现在，给定一个由许多词根组成的词典和一个句子。你需要将句子中的所有继承词用词根替换掉。如果继承词有许多可以形成它的词根，则用最短的词根替换它。
+
+你需要输出替换之后的句子。
+
+示例 1:
+
+输入: dict(词典) = ["cat", "bat", "rat"]
+sentence(句子) = "the cattle was rattled by the battery"
+输出: "the cat was rat by the bat"
+注:
+
+输入只包含小写字母。
+1 <= 字典单词数 <=1000
+1 <=  句中词语数 <= 1000
+1 <= 词根长度 <= 100
+1 <= 句中词语长度 <= 1000
+
+class Solution {
+    
+    TrieNode root = new TrieNode();
+       
+    public String replaceWords(List<String> dict, String sentence) {
+        for(String s : dict)
+            insert(s);
+        String[] strs = sentence.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for(String str : strs){
+            sb.append(replace(str)).append(" ");
+        }
+        return sb.toString().substring(0,sb.length() - 1);
+    }
+    
+    class TrieNode{
+        int count;
+        HashMap<Character,TrieNode> map = new HashMap<>();
+    }
+    
+    private void insert(String key) {
+        char[] arr = key.toCharArray();
+        TrieNode t = root;
+        for(int i = 0;i < arr.length;i++){
+            if(t.map.get(arr[i]) == null)
+                t.map.put(arr[i],new TrieNode());
+            t = t.map.get(arr[i]);
+        }
+        t.count++;
+    }
+    
+    private StringBuilder replace(String str){
+        StringBuilder sb = new StringBuilder();
+        char[] arr = str.toCharArray();
+        TrieNode t = root;
+        for(int i = 0;i < arr.length;i++){
+            if(t.map.get(arr[i]) == null)
+                return new StringBuilder(str);
+            sb.append(arr[i]);
+            if(t.map.get(arr[i]).count == 1)
+                return sb;
+            t = t.map.get(arr[i]);
+        }
+        return sb;
+    }
+}
