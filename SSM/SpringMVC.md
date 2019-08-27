@@ -41,4 +41,7 @@ handle方法的实现是在AbstractHandlerMethodAdapter方法中，handle方法�
 ![image](https://github.com/wangda7/77/blob/master/picture/40.png)<br><br>
 首先获取方法的参数类型，之后调用doInvoke(args)方法，其中就是调用method.invoke()反射调用目标方法，获取返回值，之后在处理一下ModelAndView，返回到DispatcherServlet的doDispatch方法，之后就是执行拦截器的postHandle方法，注意执行的顺序是按照倒序执行，与之前的preHandle方法正好相反，之后就是处理ModelAndView对象，进行渲染了，返回客户端，整个流程基本结束
 
+---
+---
+
 
